@@ -9,9 +9,16 @@ jobs:
     steps:
       - name: Downloading & installing Essentials
         run: |
-          Invoke-WebRequest -Uri "https://github.com/chamod121m_win-10_github_rdp-/raw/main/Downloads.bat" -OutFile "Downloads.bat"
-          cmd /c Downloads.bat
+          $url = "https://github.com/correct-username/repo-name/raw/branch-name/Downloads.bat"  # Replace with valid URL
+          Invoke-WebRequest -Uri $url -OutFile "Downloads.bat"
+          if (Test-Path "Downloads.bat") {
+            cmd /c Downloads.bat
+          } else {
+            Write-Error "Failed to download Downloads.bat"
+          }
       - name: Connect to LiteManager
         run: cmd /c show.bat
+        if: success()  # Only run if previous step succeeds
       - name: Time Counter
         run: cmd /c loop.bat
+        if: success()  # Only run if previous step succeeds
